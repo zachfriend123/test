@@ -1,1 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Store Registration</title>
+    <style>
+        body {
+            max-width: 500px;
+            margin: 20px auto;
+            font-family: Arial, sans-serif;
+        }
+        form, #result {
+            padding: 15px;
+            border: 1px solid #ccc;
+        }
+        input {
+            display: block;
+            width: 100%;
+            margin: 5px 0 10px;
+        }
+        #result {
+            display: none;
+            margin-top: 15px;
+        }
+        .success { background-color: #d4edda; }
+        .error { background-color: #f8d7da; }
+    </style>
+</head>
+<body>
+    <h2>Simple Store Registration</h2>
+    
+    <form id="regForm">
+        <input type="text" id="firstName" placeholder="First Name" required>
+        <input type="text" id="lastName" placeholder="Last Name" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="password" id="password" placeholder="Password (! or ? required)" required>
+        <input type="date" id="dob" required>
+        <input type="submit" value="Register">
+    </form>
 
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('regForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const user = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value,
+                dob: document.getElementById('dob').value
+            };
+
+            const result = document.getElementById('result');
+            const hasSpecial = user.password.includes('!') || user.password.includes('?');
+            const hiddenPass = '*'.repeat(user.password.length);
+
+            if (!hasSpecial) {
+                result.className = 'error';
+                result.textContent = 'Registration Failed: Password needs ! or ?';
+            } else {
+                result.className = 'success';
+                result.innerHTML = `Registration Successful!<br>
+                    First Name: ${user.firstName}<br>
+                    Last Name: ${user.lastName}<br>
+                    Email: ${user.email}<br>
+                    Password: ${hiddenPass}<br>
+                    Date of Birth: ${user.dob}`;
+            }
+            
+            result.style.display = 'block';
+        });
+    </script>
+</body>
+</html>
