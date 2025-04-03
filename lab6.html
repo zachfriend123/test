@@ -1,1 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cat Facts</title>
+</head>
+<body>
 
+    <h1>Cat Facts</h1>
+    
+    <button onclick="getCatFacts()">Get Facts</button>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Fact</th>
+            </tr>
+        </thead>
+        <tbody id="factsBody"></tbody>
+    </table>
+
+    <img id="catImg" src="" width="300">
+
+    <script>
+        function getCatFacts() {
+            fetch("https://brianobruno.github.io/cats.json")
+                .then(res => res.json())
+                .then(data => {
+                    let facts = data.facts.sort((a, b) => a.factId - b.factId);
+                    let table = document.getElementById("factsBody");
+                    table.innerHTML = "";
+                    facts.forEach(f => {
+                        table.innerHTML += `<tr><td>${f.factId}</td><td>${f.text}</td></tr>`;
+                    });
+                    document.getElementById("catImg").src = data.catPhoto;
+                })
+                .catch(err => console.log("Error:", err));
+        }
+    </script>
+
+</body>
+</html>
